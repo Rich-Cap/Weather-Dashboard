@@ -1,0 +1,22 @@
+h1{
+	margin: 0em;
+	text-align: center;
+	background-color: rgb(65, 65, 65);
+	color: white;
+	padding: 10px 0px;
+}
+.input-group{
+	width: 70%;
+}
+.col-4{
+	padding: 1%;
+	background-color: rgb(240, 240, 240);
+	float: left;
+}
+.col-8{
+	padding: 1%;
+	float: left;
+}
+.row{
+	width: 100%;
+}
