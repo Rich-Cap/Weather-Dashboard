@@ -22,13 +22,15 @@
 			</div>
 		</div>
 		<div>
-			<ul class="list-group">
-				<li class="list-group-item">Cras justo odio</li>
-				<li class="list-group-item">Dapibus ac facilisis in</li>
-				<li class="list-group-item">Morbi leo risus</li>
-				<li class="list-group-item">Porta ac consectetur ac</li>
-				<li class="list-group-item">Vestibulum at eros</li>
-			</ul>
+			<nav>
+				<ul class="list-group">
+					<li class="list-group-item">Cras justo odio</li>
+					<li class="list-group-item">Dapibus ac facilisis in</li>
+					<li class="list-group-item">Morbi leo risus</li>
+					<li class="list-group-item">Porta ac consectetur ac</li>
+					<li class="list-group-item">Vestibulum at eros</li>
+				</ul>
+			</nav>
 		</div>
 	</div>
 	<div class="col-8" id="info">
@@ -60,6 +62,26 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		// Array of weather locations
+		var weatherLocations = ["Austin", "Chicago", "New York", "Orlando", "San Francisco", "Seattle", "Denver", "Atlanta"];
+		
+		// API Key for OpenWeather API
+		var apiKey = "95c85a9249504e239abddc4bb7e1114c";
+
+		// Function to render the HTML to display content
+		
+			// var location = $(this).attr("data-name");
+			var queryURL = "http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=95c85a9249504e239abddc4bb7e1114c";
+
+			console.log(queryURL);
+
+		
+
+
+	</script>
+
+
 </body>
 
 </html>
