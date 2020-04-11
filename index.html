@@ -16,34 +16,25 @@
 	<div class="col-4" id="nav">
 		<h6>Search for a City:</h6>
 		<div class="input-group mb-3">
-			<input type="text" class="form-control" aria-label="Search City" aria-describedby="button-addon2">
+			<input id="input-city" type="text" class="form-control" aria-label="Search City"
+				aria-describedby="button-addon2">
 			<div class="input-group-append">
-				<button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+				<button id="search-city" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
 			</div>
 		</div>
 		<div>
 			<nav>
-				<ul class="list-group">
-					<li class="list-group-item">Cras justo odio</li>
-					<li class="list-group-item">Dapibus ac facilisis in</li>
-					<li class="list-group-item">Morbi leo risus</li>
-					<li class="list-group-item">Porta ac consectetur ac</li>
-					<li class="list-group-item">Vestibulum at eros</li>
+				<ul class="list-cities">
+					<li class="location">Cras justo odio</li>
 				</ul>
 			</nav>
 		</div>
 	</div>
-	<div class="col-8" id="info">
-		<div class="forecast">
-			<div class="jumbotron jumbotron-fluid">
-				<div class="container">
-					<h1 class="display-4">Fluid jumbotron</h1>
-					<p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its
-						parent.</p>
-				</div>
-			</div>
+	<div id="info">
+		<div id="forecastNow">
+			Forecast goes here
 		</div>
-		<div class="5dayforecast">
+		<div id="forecast5Day">
 			<h4>5-Day Forecast:</h4>
 			<div class="card" style="width: 18rem;">
 				<div class="card-body">
@@ -59,25 +50,86 @@
 	</div>
 
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		// Array of weather locations
 		var weatherLocations = ["Austin", "Chicago", "New York", "Orlando", "San Francisco", "Seattle", "Denver", "Atlanta"];
-		
-		// API Key for OpenWeather API
-		var apiKey = "95c85a9249504e239abddc4bb7e1114c";
 
-		// Function to render the HTML to display content
-		
-			// var location = $(this).attr("data-name");
-			var queryURL = "http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=95c85a9249504e239abddc4bb7e1114c";
+
+		function displayWeather(location) {
+			// API Key for OpenWeather API
+			var queryURL = "api.openweathermap.org/data/2.5/forecast?q=" + location + "&appid=a1c038ee051fba2c57aa5df3e76e9156";
 
 			console.log(queryURL);
 
-		
+			// Create AJAX call
+			$.ajax({
+				url: queryURL,
+				method: "GET",
+			}).then(function(response){
+				console.log(response);
 
+			// Creating element to hold forecast
+			var forecast = $("<div class='forecast'>");
+
+			// Create, Display and Retrieve Temperature
+			var temperature = response.list[0].main.temp;
+			var info1 = $("<p>").text("Temperature: " + temperature + "°F");
+
+			// Append Forecast Info
+			$("#forecastNow").append(temp);
+			});
+		}
+
+		// Function for displaying movie data
+		function renderButtons() {
+
+			// Deleting the movies prior to adding new movies
+			// (this is necessary otherwise you will have repeat buttons)
+			$(".list-cities").empty();
+
+			// Looping through the array of movies
+			for (var i = 0; i < weatherLocations.length; i++) {
+
+				// Then dynamicaly generating buttons for each movie in the array
+				// This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+				var a = $("<li>");
+				// Adding a class of movie-btn to our button
+				a.addClass("location");
+				// Adding a data-attribute
+				a.attr("data-name", weatherLocations[i]);
+				// Providing the initial button text
+				a.text(weatherLocations[i]);
+				// Adding the button to the buttons-view div
+				$(".list-cities").append(a);
+			}
+		}
+
+
+
+		// Event handler to get city name
+		$("#search-city").on("click", function (event) {
+			event.preventDefault();
+
+			// Store name of city
+			var city = $("#input-city").val().trim();
+			console.log(city);
+
+			// City pushed to array
+			weatherLocations.push(city);
+
+			// Run displayWeather function(passing city as argement)
+			displayWeather(city);
+
+			renderButtons(city);
+		});
+
+     	// Adding click event listeners to all elements with a class of "movie"
+     	$(document).on("click", ".movie", displayWeather);
+
+		renderButtons();
 
 	</script>
 
