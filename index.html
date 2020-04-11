@@ -24,15 +24,14 @@
 		</div>
 		<div>
 			<nav>
-				<ul class="list-cities">
+				<ul class="list-group" id="list-cities">
 					<li class="location">Cras justo odio</li>
 				</ul>
 			</nav>
 		</div>
 	</div>
 	<div id="info">
-		<div id="forecastNow">
-			Forecast goes here
+		<div class="container" id="forecastNow">
 		</div>
 		<div id="forecast5Day">
 			<h4>5-Day Forecast:</h4>
@@ -42,17 +41,13 @@
 					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
 					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
 						card's content.</p>
-					<a href="#" class="card-link">Card link</a>
-					<a href="#" class="card-link">Another link</a>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		// Array of weather locations
 		var weatherLocations = ["Austin", "Chicago", "New York", "Orlando", "San Francisco", "Seattle", "Denver", "Atlanta"];
@@ -60,50 +55,63 @@
 
 		function displayWeather(location) {
 			// API Key for OpenWeather API
-			var queryURL = "api.openweathermap.org/data/2.5/forecast?q=" + location + "&appid=a1c038ee051fba2c57aa5df3e76e9156";
-
-			console.log(queryURL);
-
-			// Create AJAX call
+			// Create AJAX call 
 			$.ajax({
-				url: queryURL,
-				method: "GET",
-			}).then(function(response){
+				url: "http://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
+				method: "GET"
+			}).then(function (response) {
 				console.log(response);
+				
 
-			// Creating element to hold forecast
-			var forecast = $("<div class='forecast'>");
+				// Creating element to hold forecast
+				var forecast = $("<div class='forecast'>");
 
-			// Create, Display and Retrieve Temperature
-			var temperature = response.list[0].main.temp;
-			var info1 = $("<p>").text("Temperature: " + temperature + "°F");
+				// Create, Display and Retrieve Name
+				var name = response.name;
+				var date = moment().format('l');
+				var icon = response.weather[0].icon;
+				var iconIMG = $("<img src=" + 'http://openweathermap.org/img/wn/' + icon + '.png' + ">");
+				console.log(iconIMG);
 
-			// Append Forecast Info
-			$("#forecastNow").append(temp);
+				var info1 = $("<p>").text(name + " " + date).append(iconIMG);
+
+				// Create, Display and Retrieve Temperature
+				var temperature = response.main.temp;
+				var info2 = $("<p>").text("Temperature: " + temperature + "°F");
+
+				// Create, Display and Retrieve Humidity
+				var humidity = response.main.humidity;
+				var info3 = $("<p>").text("Humidity: " + humidity + "%");
+
+				// Create, Display and Retrieve Wind Speed
+				var wind = response.wind.speed;
+				var info4 = $("<p>").text("Wind Speed: " + wind + " MPH");
+
+				// Append Forecast Info
+				$("#forecastNow").append(info1, info2, info3, info4);
 			});
-		}
+		};
 
 		// Function for displaying movie data
 		function renderButtons() {
 
 			// Deleting the movies prior to adding new movies
 			// (this is necessary otherwise you will have repeat buttons)
-			$(".list-cities").empty();
+			$("#list-cities").empty();
 
-			// Looping through the array of movies
+			// Looping through the array of locations
 			for (var i = 0; i < weatherLocations.length; i++) {
 
-				// Then dynamicaly generating buttons for each movie in the array
-				// This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
-				var a = $("<li>");
-				// Adding a class of movie-btn to our button
-				a.addClass("location");
+				// Then dynamicaly generating buttons for each location in the array
+				var a = $("<li id='location'>");
+				// Adding a class
+				a.addClass("list-group-item");
 				// Adding a data-attribute
 				a.attr("data-name", weatherLocations[i]);
 				// Providing the initial button text
 				a.text(weatherLocations[i]);
-				// Adding the button to the buttons-view div
-				$(".list-cities").append(a);
+				// Adding the button to the div
+				$("#list-cities").append(a);
 			}
 		}
 
@@ -126,8 +134,8 @@
 			renderButtons(city);
 		});
 
-     	// Adding click event listeners to all elements with a class of "movie"
-     	$(document).on("click", ".movie", displayWeather);
+		// Adding click event listeners to all elements with a class of "movie"
+		$(document).on("click", ".movie", displayWeather);
 
 		renderButtons();
 
