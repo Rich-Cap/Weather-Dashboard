@@ -20,3 +20,14 @@ h1{
 .row{
 	width: 100%;
 }
+/* .uv{
+	background-color: red;
+} */
+.card{
+	background-color: rgb(70, 124, 240);
+	color: white;
+}
+#forecastNow{
+	border-width: 2px;
+	border-color: black;
+}

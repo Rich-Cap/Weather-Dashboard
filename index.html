@@ -30,12 +30,50 @@
 			</nav>
 		</div>
 	</div>
-	<div id="info">
+	<div class="col-8" id="info">
 		<div class="container" id="forecastNow">
+			<div class="forecast">
+				<p><h3>Atlanta</h3></p>
+				<p>Temperature</p>
+				<p>Humidity</p>
+				<p>UV Index: </p>
+			</div>
 		</div>
-		<div id="forecast5Day">
-			<h4>5-Day Forecast:</h4>
-			<div class="card" style="width: 18rem;">
+		<h4>5-Day Forecast:</h4>
+		<div class="card-deck" id="forecast5Day row">
+			<div class="card" id="card1" style="width: auto;">
+				<div class="card-body">
+					<h5 class="card-title">Card title</h5>
+					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+						card's content.</p>
+				</div>
+			</div>
+			<div class="card" id="card2" style="width: auto;">
+				<div class="card-body">
+					<h5 class="card-title">Card title</h5>
+					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+						card's content.</p>
+				</div>
+			</div>
+			<div class="card" id="card3"style="width: auto;">
+				<div class="card-body">
+					<h5 class="card-title">Card title</h5>
+					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+						card's content.</p>
+				</div>
+			</div>
+			<div class="card row" id="card4" style="width: auto;">
+				<div class="card-body">
+					<h5 class="card-title">Card title</h5>
+					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+						card's content.</p>
+				</div>
+			</div>
+			<div class="card row" id="card5"style="width: auto;">
 				<div class="card-body">
 					<h5 class="card-title">Card title</h5>
 					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
@@ -61,7 +99,7 @@
 				method: "GET"
 			}).then(function (response) {
 				console.log(response);
-				
+				$("#forecastNow").empty();
 
 				// Creating element to hold forecast
 				var forecast = $("<div class='forecast'>");
@@ -87,10 +125,52 @@
 				var wind = response.wind.speed;
 				var info4 = $("<p>").text("Wind Speed: " + wind + " MPH");
 
+
+				// Call another AJAX for UV Index using Latitude & Longitude
+				var lat = response.coord.lat;
+				var lon = response.coord.lon;
+				$.ajax({
+				url: "http://api.openweathermap.org/data/2.5/uvi?appid=a1c038ee051fba2c57aa5df3e76e9156&lat=" + lat + "&lon=" + lon,
+				method: "GET"
+				}).then(function (response2) {
+					console.log(response2);
+
+				
+				// Create, Display and Retrieve UV index
+				var uv = response2.value;
+				var info5 = $("<p>").text("UV Index: " + uv);
+				info5.addClass("uv");
+				console.log(uv);
 				// Append Forecast Info
-				$("#forecastNow").append(info1, info2, info3, info4);
+				$("#forecastNow").append(info1, info2, info3, info4, info5);
+				});
 			});
 		};
+
+		function display5dayforecast(location){
+			$.ajax({
+				url: "http://api.openweathermap.org/data/2.5/forecast?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
+				method: "GET"
+			}).then(function(response){
+				console.log(response);
+				$(".card").empty();
+				$("<h4>").text("5-Day Forecast: ");
+
+				var cards = ["0","1","2","3","4"];
+				for (var i = 0; i < cards.length; i++){
+					var date = moment().format('l');
+					var b = $("<div>");
+					// Adding a class
+					b.addClass("card");
+					// Adding a data-attribute
+					b.attr("data-name", cards[i]);
+					// Providing the initial button text
+					b.text(date);
+					// var cardInfo1 = $(".card-body").append("<h5 class='card-title'>" + date + "</h5>");
+					$("#forecast5Day").append(b);
+				}
+			})
+		}
 
 		// Function for displaying movie data
 		function renderButtons() {
@@ -124,14 +204,15 @@
 			// Store name of city
 			var city = $("#input-city").val().trim();
 			console.log(city);
-
+			
 			// City pushed to array
 			weatherLocations.push(city);
 
 			// Run displayWeather function(passing city as argement)
 			displayWeather(city);
-
+			display5dayforecast(city);
 			renderButtons(city);
+
 		});
 
 		// Adding click event listeners to all elements with a class of "movie"
