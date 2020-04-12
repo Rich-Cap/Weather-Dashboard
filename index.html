@@ -33,53 +33,53 @@
 	<div class="col-8" id="info">
 		<div class="container" id="forecastNow">
 			<div class="forecast">
-				<p><h3>Atlanta</h3></p>
-				<p>Temperature</p>
-				<p>Humidity</p>
+				<p><h3>City</h3></p>
+				<p>Temperature: </p>
+				<p>Humidity: </p>
 				<p>UV Index: </p>
 			</div>
 		</div>
 		<h4>5-Day Forecast:</h4>
 		<div class="card-deck" id="forecast5Day row">
-			<div class="card" id="card1" style="width: auto;">
-				<div class="card-body">
-					<h5 class="card-title">Card title</h5>
-					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-						card's content.</p>
-				</div>
+			<div class="card" style="width: auto;">
+				<!-- <div class="card-body" id="card1"> -->
+					<h5 class="card-title">Date</h5>
+					<p class="icon"></p>
+					<p class="card-text">Temp: </p>
+					<p class="card-text">Humidity: </p>
+				<!-- </div> -->
 			</div>
-			<div class="card" id="card2" style="width: auto;">
-				<div class="card-body">
-					<h5 class="card-title">Card title</h5>
-					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-						card's content.</p>
-				</div>
+			<div class="card" style="width: auto;">
+				<!-- <div class="card-body" id="card2"> -->
+					<h5 class="card-title">Date</h5>
+					<p class="icon"></p>
+					<p class="card-text">Temp: </p>
+					<p class="card-text">Humidity: </p>
+				<!-- </div> -->
 			</div>
-			<div class="card" id="card3"style="width: auto;">
-				<div class="card-body">
-					<h5 class="card-title">Card title</h5>
-					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-						card's content.</p>
-				</div>
+			<div class="card" style="width: auto;">
+				<!-- <div class="card-body" id="card3"> -->
+					<h5 class="card-title">Date</h5>
+					<p class="icon"></p>
+					<p class="card-text">Temp: </p>
+					<p class="card-text">Humidity: </p>
+				<!-- </div> -->
 			</div>
-			<div class="card row" id="card4" style="width: auto;">
-				<div class="card-body">
-					<h5 class="card-title">Card title</h5>
-					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-						card's content.</p>
-				</div>
+			<div class="card row" style="width: auto;">
+				<!-- <div class="card-body" id="card4"> -->
+					<h5 class="card-title">Date</h5>
+					<p class="icon"></p>
+					<p class="card-text">Temp: </p>
+					<p class="card-text">Humidity: </p>
+				<!-- </div> -->
 			</div>
-			<div class="card row" id="card5"style="width: auto;">
-				<div class="card-body">
-					<h5 class="card-title">Card title</h5>
-					<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-						card's content.</p>
-				</div>
+			<div class="card row" style="width: auto;">
+				<!-- <div class="card-body" id="card5"> -->
+					<h5 class="card-title">Date</h5>
+					<p class="icon"></p>
+					<p class="card-text">Temp: </p>
+					<p class="card-text">Humidity: </p>
+				<!-- </div> -->
 			</div>
 		</div>
 	</div>
@@ -109,7 +109,7 @@
 				var date = moment().format('l');
 				var icon = response.weather[0].icon;
 				var iconIMG = $("<img src=" + 'http://openweathermap.org/img/wn/' + icon + '.png' + ">");
-				console.log(iconIMG);
+				// console.log(iconIMG);
 
 				var info1 = $("<p>").text(name + " " + date).append(iconIMG);
 
@@ -140,7 +140,7 @@
 				var uv = response2.value;
 				var info5 = $("<p>").text("UV Index: " + uv);
 				info5.addClass("uv");
-				console.log(uv);
+				// console.log(uv);
 				// Append Forecast Info
 				$("#forecastNow").append(info1, info2, info3, info4, info5);
 				});
@@ -151,23 +151,37 @@
 			$.ajax({
 				url: "http://api.openweathermap.org/data/2.5/forecast?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
 				method: "GET"
-			}).then(function(response){
-				console.log(response);
-				$(".card").empty();
-				$("<h4>").text("5-Day Forecast: ");
+			}).then(function(response3){
+				console.log(response3);
+				$(".card-deck").empty();
+				// $("<h4>").text("5-Day Forecast: ");
+				
+				var days5 = ["0","8","16","24","32"];
+				for (var i = 0; i < days5.length; i++){
+					var date = moment().add(i, 'days').format('l');
+					console.log(date);
+					
+					var cardheader = $("<h7>");
+					var cardinfo1 = cardheader.text(date);
 
-				var cards = ["0","1","2","3","4"];
-				for (var i = 0; i < cards.length; i++){
-					var date = moment().format('l');
-					var b = $("<div>");
-					// Adding a class
-					b.addClass("card");
-					// Adding a data-attribute
-					b.attr("data-name", cards[i]);
-					// Providing the initial button text
-					b.text(date);
-					// var cardInfo1 = $(".card-body").append("<h5 class='card-title'>" + date + "</h5>");
-					$("#forecast5Day").append(b);
+					var icon = response3.list[(days5[i])].weather[0].icon;
+					var iconIMG = $("<img src=" + 'http://openweathermap.org/img/wn/' + icon + '.png' + ">");
+
+					var cardinfo2 = $("<p>").append(iconIMG);
+					
+					var cardtemp = $("<p class='card-text'>");
+					var cardinfo3 = cardtemp.text("Temp: " + response3.list[(days5[i])].main.temp + "°F");
+					// console.log(response3.list[(cards[1])].main.temp);
+
+					var cardhumidity = $("<p class='card-text'>");
+					var cardinfo4 = cardhumidity.text("Humidity: " + response3.list[(days5[i])].main.humidity + "%");
+					// console.log(response3.list[(days5[i])].main.humidity);
+					
+					var card = $("<div class='card'>");
+					var cardbody = card.append(cardinfo1, cardinfo2, cardinfo3, cardinfo4);
+					cardbody.attr("id", "card" + i);
+
+					$(".card-deck").append(cardbody);
 				}
 			})
 		}
