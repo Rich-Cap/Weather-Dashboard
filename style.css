@@ -20,14 +20,25 @@ h1{
 .row{
 	width: 100%;
 }
-/* .uv{
+h4{
+	margin-top: 10px;
+}
+#city{
+	font-size: 22px;
+}
+index{
 	background-color: red;
-} */
+	color: white;
+	padding: 5px;
+}
 .card{
 	background-color: rgb(70, 124, 240);
 	color: white;
+	padding: 10px;
 }
 #forecastNow{
-	border-width: 2px;
-	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(235, 233, 233);
+	padding: 10px;
 }

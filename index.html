@@ -31,12 +31,12 @@
 		</div>
 	</div>
 	<div class="col-8" id="info">
-		<div class="container" id="forecastNow">
+		<div id="forecastNow">
 			<div class="forecast">
-				<p><h3>City</h3></p>
-				<p>Temperature: </p>
-				<p>Humidity: </p>
-				<p>UV Index: </p>
+				<p id="city">City Date Icon</p>
+				<p id="temp">Temperature: </p>
+				<p id="humid">Humidity: </p>
+				<p id="uv">UV Index: <index>#</index></p>
 			</div>
 		</div>
 		<h4>5-Day Forecast:</h4>
@@ -111,7 +111,7 @@
 				var iconIMG = $("<img src=" + 'http://openweathermap.org/img/wn/' + icon + '.png' + ">");
 				// console.log(iconIMG);
 
-				var info1 = $("<p>").text(name + " " + date).append(iconIMG);
+				var info1 = $("<p id='city'>").text(name + " " + date).append(iconIMG);
 
 				// Create, Display and Retrieve Temperature
 				var temperature = response.main.temp;
