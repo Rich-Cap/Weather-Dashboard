@@ -25,7 +25,7 @@
 		<div>
 			<nav>
 				<ul class="list-group" id="list-cities">
-					<li class="location">Cras justo odio</li>
+					<!-- <li class="location">Cras justo odio</li> -->
 				</ul>
 			</nav>
 		</div>
@@ -197,7 +197,7 @@
 			for (var i = 0; i < weatherLocations.length; i++) {
 
 				// Then dynamicaly generating buttons for each location in the array
-				var a = $("<li id='location'>");
+				var a = $("<li id='location"+ i + "'>");
 				// Adding a class
 				a.addClass("list-group-item");
 				// Adding a data-attribute
@@ -206,7 +206,14 @@
 				a.text(weatherLocations[i]);
 				// Adding the button to the div
 				$("#list-cities").append(a);
+
 			}
+			$("li").click(function(){
+				var city = $(this).attr("data-name");
+				// console.log(city);
+				displayWeather(city);
+				display5dayforecast(city);
+			});
 		}
 
 
@@ -229,8 +236,7 @@
 
 		});
 
-		// Adding click event listeners to all elements with a class of "movie"
-		$(document).on("click", ".movie", displayWeather);
+		// Adding click event listeners to all elements with a class of ""
 
 		renderButtons();
 
