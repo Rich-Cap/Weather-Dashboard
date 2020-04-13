@@ -54,7 +54,7 @@
 			// API Key for OpenWeather API
 			// Create AJAX call 
 			$.ajax({
-				url: "http://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
+				url: "https://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
 				method: "GET"
 			}).then(function (response) {
 				$("#forecastNow").empty();
@@ -66,7 +66,7 @@
 				var name = response.name;
 				var date = moment().format('l');
 				var icon = response.weather[0].icon;
-				var iconIMG = $("<img src=" + 'http://openweathermap.org/img/wn/' + icon + '.png' + ">");
+				var iconIMG = $("<img src=" + 'https://openweathermap.org/img/wn/' + icon + '.png' + ">");
 				// console.log(iconIMG);
 
 				var info1 = $("<p id='city'>").text(name + " " + date).append(iconIMG);
@@ -88,7 +88,7 @@
 				var lat = response.coord.lat;
 				var lon = response.coord.lon;
 				$.ajax({
-				url: "http://api.openweathermap.org/data/2.5/uvi?appid=a1c038ee051fba2c57aa5df3e76e9156&lat=" + lat + "&lon=" + lon,
+				url: "https://api.openweathermap.org/data/2.5/uvi?appid=a1c038ee051fba2c57aa5df3e76e9156&lat=" + lat + "&lon=" + lon,
 				method: "GET"
 				}).then(function (response2) {
 
@@ -117,12 +117,12 @@
 
 		function display5dayforecast(location){
 			$.ajax({
-				url: "http://api.openweathermap.org/data/2.5/forecast?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
+				url: "https://api.openweathermap.org/data/2.5/forecast?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
 				method: "GET"
 			}).then(function(response3){
 				$(".card-deck").empty();
 				
-				var days5 = ["3","11","19","27","35"];
+				var days5 = ["0","8","16","24","32"];
 				for (var i = 0; i < days5.length; i++){
 					var date = moment().add(i, 'days').format('l');
 					
