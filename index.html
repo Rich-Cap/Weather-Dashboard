@@ -46,9 +46,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
+	
 		// Array of weather locations
 		var weatherLocations = ["Austin", "Chicago", "New York", "Orlando", "San Francisco", "Seattle", "Denver", "Atlanta"];
-
 
 		function displayWeather(location) {
 			// API Key for OpenWeather API
@@ -57,7 +57,6 @@
 				url: "http://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
 				method: "GET"
 			}).then(function (response) {
-				console.log(response);
 				$("#forecastNow").empty();
 
 				// Creating element to hold forecast
@@ -92,9 +91,7 @@
 				url: "http://api.openweathermap.org/data/2.5/uvi?appid=a1c038ee051fba2c57aa5df3e76e9156&lat=" + lat + "&lon=" + lon,
 				method: "GET"
 				}).then(function (response2) {
-					console.log(response2);
 
-				
 				// Create, Display and Retrieve UV index
 				var uv = response2.value;
 
@@ -123,9 +120,7 @@
 				url: "http://api.openweathermap.org/data/2.5/forecast?q=" + location + "&units=imperial&appid=a1c038ee051fba2c57aa5df3e76e9156",
 				method: "GET"
 			}).then(function(response3){
-				console.log(response3);
 				$(".card-deck").empty();
-				// $("<h4>").text("5-Day Forecast: ");
 				
 				var days5 = ["3","11","19","27","35"];
 				for (var i = 0; i < days5.length; i++){
@@ -141,11 +136,9 @@
 					
 					var cardtemp = $("<p class='card-text'>");
 					var cardinfo3 = cardtemp.text("Temp: " + response3.list[(days5[i])].main.temp + "°F");
-					// console.log(response3.list[(cards[1])].main.temp);
 
 					var cardhumidity = $("<p class='card-text'>");
 					var cardinfo4 = cardhumidity.text("Humidity: " + response3.list[(days5[i])].main.humidity + "%");
-					// console.log(response3.list[(days5[i])].main.humidity);
 					
 					var card = $("<div class='card'>");
 					var cardbody = card.append(cardinfo1, cardinfo2, cardinfo3, cardinfo4);
@@ -156,28 +149,26 @@
 			})
 		}
 
-		// Function for displaying movie data
+		// Function for rendering page data
 		function render() {
-
-			// Deleting the movies prior to adding new movies
-			// (this is necessary otherwise you will have repeat buttons)
+			// Clear list to not add on to previous
 			$("#list-cities").empty();
 
 			// Looping through the array of locations
 			for (var i = 0; i < weatherLocations.length; i++) {
-
-				// Then dynamicaly generating buttons for each location in the array
+				// Then dynamicaly generating list items for each location in the array
 				var a = $("<li id='location"+ i + "'>");
 				// Adding a class
 				a.addClass("list-group-item");
 				// Adding a data-attribute
 				a.attr("data-name", weatherLocations[i]);
-				// Providing the initial button text
+				// Providing the text
 				a.text(weatherLocations[i]);
-				// Adding the button to the div
+				// Adding the list to the div
 				$("#list-cities").append(a);
 			}
 
+			// Adding click event listeners to all elements with a class of "li"
 			$("li").click(function(){
 				var city = $(this).attr("data-name");
 				// console.log(city);
@@ -193,7 +184,6 @@
 
 			// Store name of city
 			var city = $("#input-city").val().trim();
-			console.log(city);
 
 			// City pushed to array
 			if (city === ""){
@@ -209,10 +199,10 @@
 			render(city);
 		});
 
-		// Adding click event listeners to all elements with a class of ""
-
 		render();
 
+		// WHEN I open the weather dashboard
+		// THEN I am presented with the last searched city forecast
 		$(document).ready(function(){
 			var lastSubmit = JSON.parse(localStorage.getItem("city"));
 			display5dayforecast(lastSubmit);
