@@ -26,8 +26,28 @@ h4{
 #city{
 	font-size: 22px;
 }
-index{
-	background-color: red;
+.uv1{
+	background-color: green;
+	color: white;
+	padding: 5px;
+}
+.uv2{
+	background-color: yellow;
+	color: black;
+	padding: 5px;
+}
+.uv3{
+	background-color: orange;
+	color: black;
+	padding: 5px;
+}
+.uv4{
+	background-color:red;
+	color: white;
+	padding: 5px;
+}
+.uv5{
+	background-color:violet;
 	color: white;
 	padding: 5px;
 }
