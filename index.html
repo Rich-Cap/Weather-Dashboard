@@ -156,7 +156,7 @@
 				$(".card-deck").empty();
 				// $("<h4>").text("5-Day Forecast: ");
 				
-				var days5 = ["0","8","16","24","32"];
+				var days5 = ["3","11","19","27","35"];
 				for (var i = 0; i < days5.length; i++){
 					var date = moment().add(i, 'days').format('l');
 					console.log(date);
@@ -187,7 +187,7 @@
 		}
 
 		// Function for displaying movie data
-		function renderButtons() {
+		function render() {
 
 			// Deleting the movies prior to adding new movies
 			// (this is necessary otherwise you will have repeat buttons)
@@ -206,17 +206,16 @@
 				a.text(weatherLocations[i]);
 				// Adding the button to the div
 				$("#list-cities").append(a);
-
 			}
+
 			$("li").click(function(){
 				var city = $(this).attr("data-name");
 				// console.log(city);
 				displayWeather(city);
 				display5dayforecast(city);
+				localStorage.setItem("city", JSON.stringify(city));
 			});
 		}
-
-
 
 		// Event handler to get city name
 		$("#search-city").on("click", function (event) {
@@ -225,9 +224,14 @@
 			// Store name of city
 			var city = $("#input-city").val().trim();
 			console.log(city);
-			
+
 			// City pushed to array
-			weatherLocations.push(city);
+			if (city === ""){
+				return;
+			} else {
+				weatherLocations.push(city);
+				localStorage.setItem("city", JSON.stringify(city));
+			}
 
 			// Run displayWeather function(passing city as argement)
 			displayWeather(city);
@@ -238,10 +242,15 @@
 
 		// Adding click event listeners to all elements with a class of ""
 
-		renderButtons();
+		render();
+
+		$(document).ready(function(){
+			var lastSubmit = JSON.parse(localStorage.getItem("city"));
+			display5dayforecast(lastSubmit);
+			displayWeather(lastSubmit);
+		});
 
 	</script>
-
 
 </body>
 
